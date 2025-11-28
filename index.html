@@ -1,57 +1,160 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopNow - Everything You Need</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f4f4f4;
-        }
-        header {
-            background: #222;
-            padding: 15px;
-            color: white;
-            text-align: center;
-            font-size: 24px;
-        }
-        .products {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            padding: 20px;
-        }
-        .item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-        }
-        .item img {
-            width: 100%;
-            border-radius: 6px;
-        }
-        button {
-            margin-top: 10px;
-            padding: 8px 12px;
-            background: #ff5500;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            font-size: 14px;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ShopNow — Shoes Store</title>
+  <meta name="description" content="ShopNow — Trendy shoes with WhatsApp ordering" />
+  <style>
+    :root{--accent:#0f6;--muted:#666;--card-bg:#fff;--bg:#f4f6f9}
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Arial,sans-serif;margin:0;background:var(--bg);color:#111}
+    .container{max-width:1100px;margin:28px auto;padding:0 16px}
+    header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,#06b,#48f);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+    h1{margin:0;font-size:20px}
+    p.lead{margin:0;color:var(--muted);font-size:14px}
+    .search-wrap{display:flex;gap:8px;align-items:center}
+    .search{padding:10px 12px;border-radius:10px;border:1px solid #e0e6ef;width:260px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:520px){.grid{grid-template-columns:1fr}.search{width:140px}}
+    .card{background:var(--card-bg);border-radius:12px;box-shadow:0 6px 18px rgba(20,30,50,0.08);overflow:hidden;display:flex;flex-direction:column}
+    .thumb{height:220px;background:#eee;display:flex;align-items:center;justify-content:center}
+    .thumb img{max-width:100%;max-height:100%;object-fit:contain}
+    .card-body{padding:12px 14px;flex:1;display:flex;flex-direction:column}
+    .title{font-weight:600;margin-bottom:6px}
+    .price{color:#0b8043;font-weight:700;margin-bottom:6px}
+    .desc{color:var(--muted);font-size:13px;margin-bottom:10px}
+    .actions{margin-top:auto;display:flex;gap:8px}
+    .btn{flex:1;padding:10px;border-radius:10px;border:0;font-weight:600;cursor:pointer}
+    .btn-primary{background:#25D366;color:white}
+    .btn-secondary{background:transparent;border:1px solid #e6e9f2}
+    footer{margin-top:22px;padding:12px 0;color:var(--muted);font-size:13px;text-align:center}
+    .badge{background:#fff;border-radius:999px;padding:6px 10px;border:1px solid #e9eef8;font-weight:600}
+  </style>
 </head>
 <body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">SN</div>
+        <div>
+          <h1>ShopNow — Shoes</h1>
+          <p class="lead">Trending shoes · WhatsApp ordering · No minimum</p>
+        </div>
+      </div>
+      <div class="search-w overrap">
+        <input id="search" class="search" placeholder="Search shoes, size, style...">
+        <div class="badge">5 products</div>
+      </div>
+    </header>
 
-<header>ShopNow — Everything You Need</header>
+    <main>
+      <div id="productGrid" class="grid"></div>
+    </main>
 
-<div class="products">
+    <footer>
+      Built for reselling · Replace WhatsApp number in the code to receive orders · Need help? Message me.
+    </footer>
+  </div>
 
-    <div class="item">
-        <img src="https://via.placeholder.com/300" alt="Product">
-        <
+  <script>
+    const YOUR_PHONE = '919811714819';
+
+    const products = [
+      {
+        id: 'SNK-001',
+        name: 'RushRun Lightweight Sneakers',
+        price: 999,
+        size: '8-11',
+        img: 'https://images.unsplash.com/photo-1528701800489-476e6e9b3b6f?q=80&w=1200&auto=format&fit=crop&crop=entropy',
+        desc: 'Comfort foam sole, breathable mesh upper, great for daily wear.'
+      },
+      {
+        id: 'SNK-002',
+        name: 'UrbanFlex Casual Shoes',
+        price: 849,
+        size: '7-10',
+        img: 'https://images.unsplash.com/photo-1600180758890-9d8c6c6b8d02?q=80&w=1200&auto=format&fit=crop&crop=entropy',
+        desc: 'Sleek look for casual outings — flexible & easy to clean.'
+      },
+      {
+        id: 'SNK-003',
+        name: 'TrailGrip Sport Runner',
+        price: 1299,
+        size: '8-12',
+        img: 'https://images.unsplash.com/photo-1603570418652-1b9fc7a18aa5?q=80&w=1200&auto=format&fit=crop&crop=entropy',
+        desc: 'Durable grip sole for running and outdoor workouts.'
+      },
+      {
+        id: 'SNK-004',
+        name: 'Classic Leather Loafers',
+        price: 1199,
+        size: '6-11',
+        img: 'https://images.unsplash.com/photo-1519744792095-2f2205e87b6f?q=80&w=1200&auto=format&fit=crop&crop=entropy',
+        desc: 'Polished leather finish — ideal for formal & semi-formal looks.'
+      },
+      {
+        id: 'SNK-005',
+        name: 'Everyday Slip-on Comforts',
+        price: 699,
+        size: '6-12',
+        img: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1200&auto=format&fit=crop&crop=entropy',
+        desc: 'Slip-on convenience with cushioned insole for long hours.'
+      }
+    ];
+
+    const grid = document.getElementById('productGrid');
+    const searchInput = document.getElementById('search');
+
+    function render(productsToShow){
+      grid.innerHTML = '';
+      productsToShow.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="thumb"><img src="${p.img}" alt="${p.name}"></div>
+          <div class="card-body">
+            <div class="title">${p.name}</div>
+            <div class="price">₹${p.price}</div>
+            <div class="desc">${p.desc}</div>
+            <div class="actions">
+              <button class="btn btn-primary" onclick="buyWhatsApp('${p.id}')">Buy on WhatsApp</button>
+              <button class="btn btn-secondary" onclick="viewDetails('${p.id}')">Details</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function buyWhatsApp(productId){
+      const p = products.find(x=>x.id===productId);
+      if(!p) return;
+      const message = `Hi, I want to order *${p.name}* (code: ${p.id}). Price: ₹${p.price}. Size: ${p.size}. My address is: `;
+      const url = `https://wa.me/${YOUR_PHONE}?text=${encodeURIComponent(message)}`;
+      window.open(url,'_blank');
+    }
+
+    function viewDetails(id){
+      const p = products.find(x=>x.id===id);
+      if(!p) return;
+      alert(`${p.name}\n\nPrice: ₹${p.price}\nSize: ${p.size}\n\n${p.desc}`);
+    }
+
+    searchInput.addEventListener('input', ()=>{
+      const q = searchInput.value.trim().toLowerCase();
+      const filtered = products.filter(p=> (
+        p.name.toLowerCase().includes(q) ||
+        p.desc.toLowerCase().includes(q) ||
+        p.id.toLowerCase().includes(q)
+      ));
+      render(filtered);
+    });
+
+    render(products);
+  </script>
+</body>
+</html>
